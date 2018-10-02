@@ -8,8 +8,6 @@ Main features:
 - map of pictures using geolocation (not ended. Issues with Google API key)
 - filters: date(from - to and new - old), license and size
 
-
-
 ## Installation
 
 ### `$ npm install`

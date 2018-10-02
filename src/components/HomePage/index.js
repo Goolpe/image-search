@@ -9,13 +9,15 @@ class HomePage extends Component {
 		super(props);
 		this.state={
 			photos: [],
-			items: 15,
+			items: 20,
 			loading: false
 		}
 		this.handleScroll = this.handleScroll.bind(this);
 		this.loadMoreItems = this.loadMoreItems.bind(this);
 	}
 	componentDidMount(){
+
+//add event scroll
 		window.addEventListener('scroll', this.handleScroll)
 
 // creating array for data fetch
@@ -40,28 +42,33 @@ class HomePage extends Component {
 			})
 	}
 
+//handling scroll
+
 	handleScroll(e){
-		if (this.refs.iScroll.scrollTop + this.refs.iScroll.clientHeight >= this.refs.iScroll.scrollHeight - 20 && this.state.items < this.state.photos.length){
+		if (document.scrollingElement.scrollTop + document.scrollingElement.clientHeight >= document.scrollingElement.scrollHeight - 20 && this.state.items <= this.state.photos.length){
         this.loadMoreItems();
       }
     }
+
 	loadMoreItems(){
+//show loading indicator
 			this.setState({
 				loading: true
 			})
-			
+
+//timeout before load data
 			setTimeout(()=>{
 				 this.setState({
 				 		loading: false,
-	        	items: this.state.items + 5,
+	        	items: this.state.items + 10,
 	      });
-			}, 3500)
-			console.log(this.state.items)
+			}, 2500)
 	}
 
 	componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
 	}
+
   render() {
 // creating card
   	const photosList = this.state.photos.map((item,index)=> 
@@ -82,10 +89,8 @@ class HomePage extends Component {
       		{photosList}
       	</div>
       	<div className="loading">
-
       		{this.state.loading && <h1>loading<span className="dot">.</span><span className="dot">.</span><span className="dot">.</span></h1>}
       	</div>
-      	
       </div>
     );
   }

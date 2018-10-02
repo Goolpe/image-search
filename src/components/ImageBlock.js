@@ -6,7 +6,7 @@ import GoogleMapReact from 'google-map-react';
 const API = 'https://api.flickr.com/services/rest/?method=';
 const API_KEY = '&api_key=501cd1f79f31f6d00da6faed96ee96ae&format=json&nojsoncallback=1';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const AnyReactComponent = ({ text }) => (<div> {text}</div>);
 
 class ImageBlock extends Component {
 	constructor(props){
@@ -40,41 +40,45 @@ class ImageBlock extends Component {
 	}
 
 	fetchData(){
+		this.mounted = true;
+// creating arrays for data fetch
+		let photoList = [];
+		let geoList = [];
+		
+// getting photos
 		this.setState({
 				loading: true
 			})
-// creating array for data fetch
-		let photoList = [];
-		let geoList = [];
-// getting photos
 		fetch(API + this.props.method + API_KEY + this.props.nid)
 			.then(response => response.json() )
 			.then(data => {
 // getting photos info
-				data.photos.photo.map(item=>{
-					return fetch(API + 'flickr.photos.getInfo' + API_KEY + '&photo_id=' + item.id + '&secret=' + item.secret)
-					.then(response=> response.json())
-					.then(data => {
-						photoList.push(data)
-						this.setState({
-							photos: photoList,
-							loading: false
+				if(this.mounted) {
+					data.photos.photo.map(item=>{
+						return fetch(API + 'flickr.photos.getInfo' + API_KEY + '&photo_id=' + item.id + '&secret=' + item.secret)
+						.then(response=> response.json())
+						.then(data => {
+							photoList.push(data)
+							this.setState({
+								photos: photoList,
+								loading: false
+							})
 						})
 					})
-				})
 
-				data.photos.photo.map(item=>{
-					return fetch(API + 'flickr.photos.geo.getLocation' + API_KEY + '&photo_id=' + item.id)
-					.then(response=> response.json())
-					.then(data => {
-						if(data.stat === "ok"){
-							geoList.push(data)
-							this.setState({
-								geolist: geoList
-							})
-						}
+					data.photos.photo.map(item=>{
+						return fetch(API + 'flickr.photos.geo.getLocation' + API_KEY + '&photo_id=' + item.id)
+						.then(response=> response.json())
+						.then(data => {
+							if(data.stat === "ok"){
+								geoList.push(data)
+								this.setState({
+									geolist: geoList
+								})
+							}
+						})
 					})
-				})
+				}
 			})
 	}
 
@@ -101,6 +105,10 @@ class ImageBlock extends Component {
 		}, 2500)
 	}
 
+	componentWillUnmount(){
+		window.removeEventListener('scroll', this.handleScroll);
+	  	this.mounted = false;
+	}
   render() {
   	var photosWithFilter;
 
@@ -120,6 +128,14 @@ class ImageBlock extends Component {
 
   	this.props.license && (photosWithFilter = photosWithFilter.filter(item => this.props.license === item.photo.license))
 
+// date sort from
+	this.props.from && (photosWithFilter = photosWithFilter.filter(item => 
+	    Date.parse(item.photo.dates.taken) >= Date.parse(this.props.from)))
+
+// date sort to
+	this.props.to && (photosWithFilter = photosWithFilter.filter(item => 
+	    Date.parse(item.photo.dates.taken) < (Date.parse(this.props.to))))
+
 // creating cards
   	const PHOTOS_LIST = photosWithFilter.map((item,index)=> 
         	<div className="card" key={index}>
@@ -134,20 +150,27 @@ class ImageBlock extends Component {
         	</div>
         ).slice(0, this.state.items)
 
+//locations on the google map
+
   	const GEO_LIST = this.state.geolist.map((item,index)=>
   		<AnyReactComponent key={index} lat={item.photo.latitude} lng={item.photo.longitude}	text={'Kreyser Avrora'}	/>
   	)
     return (
     	<React.Fragment>
 			{this.props.viewList ? 
-				<div className="cards_container">
-		      		{PHOTOS_LIST}
-		      	</div> 
+				<React.Fragment>
+					<div className="cards_container">
+			      		{PHOTOS_LIST}
+			      	</div> 
+			      	<div className="loading">
+			      		{this.state.loading && <h1>loading<span className="dot">.</span><span className="dot">.</span><span className="dot">.</span></h1>}
+			      	</div>
+		      	</React.Fragment>
 	      	:
 	      		<div className="cards_container">
 	      			<div style={{ height: '100vh', width: '100%' }}>
 			      		<GoogleMapReact
-					          bootstrapURLKeys={{ key: "AIzaSyDGOar-2f9RxxkKteGOuzRL7iSosbxiEHI" }}
+					          bootstrapURLKeys={{ key: "AIzaSyBdyft2ywxg0IbrE6MxSfiPO_Boywlz1ao" }}
 					          defaultCenter={this.state.center}
 					          defaultZoom={this.state.zoom}
 					        >
@@ -156,9 +179,7 @@ class ImageBlock extends Component {
 				    </div>
 		      	</div>
 	      	}
-	      	<div className="loading">
-	      		{this.state.loading && <h1>loading<span className="dot">.</span><span className="dot">.</span><span className="dot">.</span></h1>}
-	      	</div>
+	      	
       	</React.Fragment>
     );
   }

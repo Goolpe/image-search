@@ -24,6 +24,8 @@ ul{
 	text-align: center;
 }
 
+/*imageblock*/
+
 .cards_container{
   display: flex;
   flex-wrap: wrap;
@@ -88,6 +90,8 @@ ul{
 	background-color: #3b3c40;
 }
 
+/*loading indicator*/
+
 .loading{
 	text-align: center;
 }
@@ -120,12 +124,13 @@ ul{
 	}
 }
 
+/*search input*/
+
 .home_search{
 	display: flex;
 	justify-content: center;
 	margin: 50px auto;
 	width: 500px;
-
 }
 
 .home_search input{
@@ -162,7 +167,7 @@ ul{
 .filter_icon{
 	background-color: transparent;
 	border:1px solid rgba(0,0,0,0.2);
-	margin-left: 10px;
+	margin-right: 10px;
 	vertical-align: middle;
 }
 
@@ -177,9 +182,41 @@ ul{
 	height: 30px;
 	cursor: pointer;
 	border:1px solid rgba(0,0,0,0.2);
+	margin-right: 10px;
 }
 
 .author_caption{
 	text-decoration: none;
 	
+}
+
+.filter_date_input input{
+	padding:6px;
+	margin-right: 10px;
+	border:1px solid rgba(0,0,0,0.2);
+}
+
+.filter_date_input button{
+	padding:8px;
+}
+
+@media (max-width: 575.98px) {
+	.home_search{
+		width: 90%
+	}
+	#licenseFilter{
+		margin-bottom: 5px;
+	}
+	.home_search input{
+		font-size: 14px;
+	}
+	.home_search button{
+		font-size: 14px;
+	}
+	#licenseFilter{
+		font-size: 12px;
+	}
+	.author_link{
+		display: block;
+	}
 }

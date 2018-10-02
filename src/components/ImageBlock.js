@@ -11,7 +11,8 @@ class ImageBlock extends Component {
 		this.state={
 			photos: [],
 			items: 20,
-			loading: false
+			loading: false,
+			geolist: []
 		}
 		this.handleScroll = this.handleScroll.bind(this);
 		this.loadMoreItems = this.loadMoreItems.bind(this);
@@ -24,13 +25,19 @@ class ImageBlock extends Component {
 		this.fetchData();
 	}
 
+	componentDidUpdate(nextProps){
+		if(this.props.nid !== nextProps.nid){
+			this.fetchData();
+		}	
+	}
+
 	fetchData(){
 		this.setState({
 				loading: true
 			})
 // creating array for data fetch
 		let photoList = [];
-		
+		let geoList = [];
 // getting photos
 		fetch(API + this.props.method + API_KEY + this.props.nid)
 			.then(response => response.json() )
@@ -47,20 +54,26 @@ class ImageBlock extends Component {
 						})
 					})
 				})
+
+				data.photos.photo.map(item=>{
+					return fetch(API + 'flickr.photos.geo.getLocation' + API_KEY + '&photo_id=' + item.id)
+					.then(response=> response.json())
+					.then(data => {
+						geoList.push(data)
+						this.setState({
+							geolist: geoList
+						})
+					})
+				})
 			})
 	}
 
-	componentDidUpdate(nextProps){
-		if (this.props.nid !== nextProps.nid){
-			this.fetchData()
-		}
-	}
 //handling scroll
 
 	handleScroll(e){
 		if (document.scrollingElement.scrollTop + document.scrollingElement.clientHeight >= document.scrollingElement.scrollHeight - 20 && this.state.items <= this.state.photos.length){
-        this.loadMoreItems();
-      }
+	        this.loadMoreItems();
+	    }
     }
 
 	loadMoreItems(){
@@ -96,7 +109,11 @@ class ImageBlock extends Component {
 // licenses filter
 
   	this.props.license && (photosWithFilter = photosWithFilter.filter(item => this.props.license === item.photo.license))
-  	console.log(photosWithFilter)
+
+// location filter
+
+  	this.props.geolist && (photosWithFilter = photosWithFilter.filter(item => this.props.license === item.photo.license))
+
 // creating cards
   	const PHOTOS_LIST = photosWithFilter.map((item,index)=> 
         	<div className="card" key={index}>
@@ -110,15 +127,22 @@ class ImageBlock extends Component {
 	        		</div>
         	</div>
         ).slice(0, this.state.items)
+
     return (
-      <div className="container">
-		<div className="cards_container">
-      		{PHOTOS_LIST}
-      	</div>
-      	<div className="loading">
-      		{this.state.loading && <h1>loading<span className="dot">.</span><span className="dot">.</span><span className="dot">.</span></h1>}
-      	</div>
-      </div>
+    	<React.Fragment>
+			{this.props.viewList ? 
+				<div className="cards_container">
+		      		{PHOTOS_LIST}
+		      	</div> 
+	      	:
+	      		<div className="cards_container">
+		      		123
+		      	</div>
+	      	}
+	      	<div className="loading">
+	      		{this.state.loading && <h1>loading<span className="dot">.</span><span className="dot">.</span><span className="dot">.</span></h1>}
+	      	</div>
+      	</React.Fragment>
     );
   }
 }

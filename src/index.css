@@ -16,9 +16,12 @@ ul{
 }
 
 .container{
-	width: 1300px;
-  margin: 0 auto;
-  text-align: center;
+	width:  90%;
+  margin: 50px auto;
+}
+
+.container h1{
+	text-align: center;
 }
 
 .cards_container{
@@ -150,19 +153,35 @@ ul{
 .home_search button:hover{
 	box-shadow: 0 0 5px rgba(0,0,0,0.5);
 	background-color: #55bbeb;
-
 }
 
 .home_search button:focus{
 	box-shadow: 0 0 1px rgba(0,0,0,0.5);
 }
 
-.filter_icons{
+.filter_icon{
 	background-color: transparent;
 	border:0;
+	box-shadow: 0 0 4px rgba(0,0,0,0.5);
+	margin-left: 10px;
+	vertical-align: middle;
 }
 
 .filter_container{
-	text-align: left;
-	margin: 10px 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin: 30px 0;
+}
+
+#licenseFilter{
+	height: 30px;
+	cursor: pointer;
+	border: 0;
+	box-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.author_caption{
+	text-decoration: none;
+	
 }

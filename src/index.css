@@ -161,8 +161,7 @@ ul{
 
 .filter_icon{
 	background-color: transparent;
-	border:0;
-	box-shadow: 0 0 4px rgba(0,0,0,0.5);
+	border:1px solid rgba(0,0,0,0.2);
 	margin-left: 10px;
 	vertical-align: middle;
 }
@@ -177,8 +176,7 @@ ul{
 #licenseFilter{
 	height: 30px;
 	cursor: pointer;
-	border: 0;
-	box-shadow: 0 0 3px rgba(0,0,0,0.5);
+	border:1px solid rgba(0,0,0,0.2);
 }
 
 .author_caption{

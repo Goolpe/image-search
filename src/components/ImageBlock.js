@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
+import GoogleMapReact from 'google-map-react';
 
 const API = 'https://api.flickr.com/services/rest/?method=';
 const API_KEY = '&api_key=501cd1f79f31f6d00da6faed96ee96ae&format=json&nojsoncallback=1';
+
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class ImageBlock extends Component {
 	constructor(props){
@@ -12,7 +15,12 @@ class ImageBlock extends Component {
 			photos: [],
 			items: 20,
 			loading: false,
-			geolist: []
+			geolist: [],
+			center: {
+		      lat: 59.95,
+		      lng: 30.33
+		    },
+		    zoom: 11
 		}
 		this.handleScroll = this.handleScroll.bind(this);
 		this.loadMoreItems = this.loadMoreItems.bind(this);
@@ -59,10 +67,12 @@ class ImageBlock extends Component {
 					return fetch(API + 'flickr.photos.geo.getLocation' + API_KEY + '&photo_id=' + item.id)
 					.then(response=> response.json())
 					.then(data => {
-						geoList.push(data)
-						this.setState({
-							geolist: geoList
-						})
+						if(data.stat === "ok"){
+							geoList.push(data)
+							this.setState({
+								geolist: geoList
+							})
+						}
 					})
 				})
 			})
@@ -110,10 +120,6 @@ class ImageBlock extends Component {
 
   	this.props.license && (photosWithFilter = photosWithFilter.filter(item => this.props.license === item.photo.license))
 
-// location filter
-
-  	this.props.geolist && (photosWithFilter = photosWithFilter.filter(item => this.props.license === item.photo.license))
-
 // creating cards
   	const PHOTOS_LIST = photosWithFilter.map((item,index)=> 
         	<div className="card" key={index}>
@@ -128,6 +134,9 @@ class ImageBlock extends Component {
         	</div>
         ).slice(0, this.state.items)
 
+  	const GEO_LIST = this.state.geolist.map((item,index)=>
+  		<AnyReactComponent key={index} lat={item.photo.latitude} lng={item.photo.longitude}	text={'Kreyser Avrora'}	/>
+  	)
     return (
     	<React.Fragment>
 			{this.props.viewList ? 
@@ -136,7 +145,15 @@ class ImageBlock extends Component {
 		      	</div> 
 	      	:
 	      		<div className="cards_container">
-		      		123
+	      			<div style={{ height: '100vh', width: '100%' }}>
+			      		<GoogleMapReact
+					          bootstrapURLKeys={{ key: "AIzaSyDGOar-2f9RxxkKteGOuzRL7iSosbxiEHI" }}
+					          defaultCenter={this.state.center}
+					          defaultZoom={this.state.zoom}
+					        >
+					          {GEO_LIST}
+					    </GoogleMapReact>
+				    </div>
 		      	</div>
 	      	}
 	      	<div className="loading">

@@ -9,14 +9,15 @@ class HomePage extends Component {
 		super(props);
 		this.state={
 			photos: [],
-			height: 500,
-			nextItem: 15,
+			items: 15,
 			loading: false
 		}
 		this.handleScroll = this.handleScroll.bind(this);
+		this.loadMoreItems = this.loadMoreItems.bind(this);
 	}
 	componentDidMount(){
 		window.addEventListener('scroll', this.handleScroll)
+
 // creating array for data fetch
 		let photoList = [];
 
@@ -38,31 +39,30 @@ class HomePage extends Component {
 				})
 			})
 	}
-	componentDidUpdate(nextState){
-		if(this.state.nextItem !== nextState.nextItem && this.state.nextItem < 100){
-		}
-	}
-	componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-	}
 
 	handleScroll(e){
-		if (window.pageYOffset + window.innerHeight >= this.state.height && this.state.nextItem < 100) {
+		if (this.refs.iScroll.scrollTop + this.refs.iScroll.clientHeight >= this.refs.iScroll.scrollHeight - 20 && this.state.items < this.state.photos.length){
+        this.loadMoreItems();
+      }
+    }
+	loadMoreItems(){
 			this.setState({
 				loading: true
 			})
+			
 			setTimeout(()=>{
 				 this.setState({
 				 		loading: false,
-	        	nextItem: this.state.nextItem + 5,
-						height: this.state.height + 500,
+	        	items: this.state.items + 5,
 	      });
-			}, 1500)
-     	
-	  }
+			}, 3500)
+			console.log(this.state.items)
+	}
+
+	componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
 	}
   render() {
-  	console.log(this.state.nextItem, this.state.height)
 // creating card
   	const photosList = this.state.photos.map((item,index)=> 
         	<div className="card" key={index}>
@@ -75,13 +75,17 @@ class HomePage extends Component {
 	        			</ul>
 	        		</div>
         	</div>
-        )
+        ).slice(0, this.state.items)
     return (
-      <div>
-				<div className="cards_container">
+      <div className="homePage">
+				<div ref="iScroll" className="cards_container">
       		{photosList}
       	</div>
-      	{this.state.loading && "loading"}
+      	<div className="loading">
+
+      		{this.state.loading && <h1>loading<span className="dot">.</span><span className="dot">.</span><span className="dot">.</span></h1>}
+      	</div>
+      	
       </div>
     );
   }

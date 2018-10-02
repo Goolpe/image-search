@@ -10,24 +10,29 @@ ul{
 	padding: 0;
 }
 
+.homePage{
+	width: 1300px;
+  margin: 0 auto;
+}
+
 .cards_container{
   display: flex;
   flex-wrap: wrap;
-  width: 1300px;
-  margin: 0 auto;
+  height: auto;
+
 }
 
 .card{
   flex-grow: 1;
   margin: 2px;
-  height: 200px;
+  height: 250px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
 }
 
 .card_image{
-  height: 200px;
+  height: inherit;
   object-fit: cover;
   max-width: 100%;
   min-width: 100%;
@@ -55,4 +60,36 @@ ul{
 
 .card_info ul li{
 	padding: 5px;
+}
+
+.loading{
+	text-align: center;
+}
+
+.dot:nth-child(1){
+	animation: dots 1s infinite;
+	animation-delay: 0s;
+
+}
+
+.dot:nth-child(2){
+	animation: dots 1s infinite;
+	animation-delay: .2s;
+}
+
+.dot:nth-child(3){
+	animation: dots 1s infinite;
+	animation-delay: .5s;
+}
+
+@keyframes dots{
+	0% {
+		color:#000;
+	}
+	50%{
+		color:#fff;
+	}
+	100% {
+		color:#000;
+	}
 }

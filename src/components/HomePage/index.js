@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 const API = 'https://api.flickr.com/services/rest/?method=';
 const API_KEY = '&api_key=4e223febd1051d6edac11a8ce2f42d36&format=json&nojsoncallback=1';
@@ -34,14 +35,20 @@ class HomePage extends Component {
 				
 	}
   render() {
-// creating every card
+
+// creating card
   	const photosList = this.state.photos.map((item,index)=> 
-        	<div className="card" key={index}>
-        		<div className="card_image">
-        			<img src={'https://farm' + item.photo.farm + '.staticflickr.com/' + item.photo.server + '/' + item.photo.id + '_' + item.photo.secret + '.jpg'} />
+        	<div className="wrapper" key={index}>
+        		<div className="card">
+	        		<img className="card_image" src={'https://farm' + item.photo.farm + '.staticflickr.com/' + item.photo.server + '/' + item.photo.id + '_' + item.photo.secret + '.jpg'} />
+	        		<div className="card_info">
+	        			<ul>
+	        				<li>{item.photo.owner.username}</li>
+	        				<li>{moment(item.photo.dates.taken).format('LL')}</li>
+	        				<li>description: {item.photo.description._content.slice(0,200) || "-"}</li>
+	        			</ul>
+	        		</div>
         		</div>
-        		<div className="card_captions">{item.photo.owner.username}</div>
-        		<div className="card_description">{item.photo.description._content}</div>
         	</div>
         )
 

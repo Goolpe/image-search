@@ -3,3 +3,56 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+ul{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.cards_container{
+	column-count: 5;
+  	column-gap: 0;
+  	width: 1300px;
+  	margin: 0 auto;
+  	padding: 10px;
+}
+
+.wrapper{
+	display: inline-block;
+	width: 100%;
+}
+
+.card{
+	margin: 10px;
+  	box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  	transition: .4s;
+  	overflow: hidden;
+}
+
+.card_image{
+	height: auto;
+	width: 100%;
+}
+
+.card_info{
+	height: auto;
+	width: 100%;
+	z-index: 900;
+	top:0;
+	left:0;
+}
+
+.card:hover{
+	background-color: rgba(0,0,0,0.7);
+	color: #fff;
+	transition: .4s;
+}
+
+.card_info ul{
+	margin: 5px;
+}
+
+.card_info ul li{
+	padding: 5px;
+}

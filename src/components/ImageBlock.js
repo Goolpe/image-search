@@ -15,16 +15,23 @@ class ImageBlock extends Component {
 		}
 		this.handleScroll = this.handleScroll.bind(this);
 		this.loadMoreItems = this.loadMoreItems.bind(this);
+		this.fetchData = this.fetchData.bind(this);
 	}
 
 	componentDidMount(){
-		console.log()
 //add event scroll
 		window.addEventListener('scroll', this.handleScroll)
+		this.fetchData()
 
+	}
+
+	fetchData(){
+		this.setState({
+				loading: true
+			})
 // creating array for data fetch
 		let photoList = [];
-
+		
 // getting photos
 		fetch(API + this.props.method + API_KEY + this.props.nid)
 			.then(response => response.json() )
@@ -37,13 +44,18 @@ class ImageBlock extends Component {
 					.then(data => {
 						photoList.push(data)
 						this.setState({
-							photos: photoList
+							photos: photoList,
+							loading: false
 						})
 					})
 				})
 			})
 	}
-
+	componentDidUpdate(nextProps){
+		if (this.props.nid !== nextProps.nid){
+			this.fetchData()
+		}
+	}
 //handling scroll
 
 	handleScroll(e){
@@ -61,8 +73,8 @@ class ImageBlock extends Component {
 //timeout before load data
 			setTimeout(()=>{
 				 this.setState({
-				 		loading: false,
-	        	items: this.state.items + 10,
+				 	loading: false,
+	        		items: this.state.items + 10,
 	      });
 			}, 2500)
 	}
@@ -83,7 +95,7 @@ class ImageBlock extends Component {
         	</div>
         ).slice(0, this.state.items)
     return (
-      <div className="imageBlock">
+      <div className="container">
 		<div className="cards_container">
       		{photosList}
       	</div>

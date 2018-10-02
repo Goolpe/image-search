@@ -64,6 +64,9 @@ class ImageBlock extends Component {
 								loading: false
 							})
 						})
+						.catch(err => {
+					        alert('something broke');
+					    });
 					})
 
 					data.photos.photo.map(item=>{
@@ -77,6 +80,9 @@ class ImageBlock extends Component {
 								})
 							}
 						})
+						.catch(err => {
+					        alert('something broke');
+					    });
 					})
 				}
 			})
@@ -96,7 +102,7 @@ class ImageBlock extends Component {
 			loading: true
 		})
 
-	//timeout before load data
+//timeout before load data
 		setTimeout(()=>{
 			 this.setState({
 			 	loading: false,
@@ -117,7 +123,6 @@ class ImageBlock extends Component {
   	this.props.sortByDateDown && (photosWithFilter = this.state.photos.sort((a,b) =>{
   		return new Date(b.photo.dates.taken) - new Date(a.photo.dates.taken)
   	}))
-
 // sort by date up
 
   	this.props.sortByDateUp && (photosWithFilter = this.state.photos.sort((a,b) =>{
@@ -151,9 +156,8 @@ class ImageBlock extends Component {
         ).slice(0, this.state.items)
 
 //locations on the google map
-
   	const GEO_LIST = this.state.geolist.map((item,index)=>
-  		<AnyReactComponent key={index} lat={item.photo.latitude} lng={item.photo.longitude}	text={'Kreyser Avrora'}	/>
+  		<AnyReactComponent key={index} lat={item.photo.latitude} lng={item.photo.longitude}	text={item.photo.location.locality._content}	/>
   	)
     return (
     	<React.Fragment>

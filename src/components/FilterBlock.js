@@ -7,7 +7,7 @@ import Place from '@material-ui/icons/Place';
 import moment from 'moment';
 
 const API = 'https://api.flickr.com/services/rest/?method=';
-const API_KEY = '&api_key=210faf4ab82b8d0fdd0e13dc09080003&format=json&nojsoncallback=1';
+const API_KEY = '&api_key=501cd1f79f31f6d00da6faed96ee96ae&format=json&nojsoncallback=1';
 
 class FilterBlock extends Component {
 	constructor(props){
@@ -27,12 +27,12 @@ class FilterBlock extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleDate = this.handleDate.bind(this);
 		this.handleView = this.handleView.bind(this);
-		this.handleDateSearch = this.handleDateSearch.bind(this);
 	}
 
 	componentDidMount(){
 		this.mounted = true;
 
+//getting licenses list
 		fetch(API + "flickr.photos.licenses.getInfo" + API_KEY)
 			.then(response => response.json() )
 			.then(data => {
@@ -42,6 +42,9 @@ class FilterBlock extends Component {
 					})
 				}
 			})
+			.catch(err => {
+		        alert('something broke');
+		    });
 	}
 //handling change of value input
 	handleChange(e){
@@ -67,11 +70,6 @@ class FilterBlock extends Component {
 		})
 	}
 
-// handling search date from to
-	handleDateSearch(){
-
-	}
-
 	componentWillUnmount(){
 	  this.mounted = false;
 	}
@@ -86,12 +84,13 @@ class FilterBlock extends Component {
 	      			<option value="">All</option>
 				    {LICENSES_LIST}
 				</select>
-				<button onClick={this.handleView} className="filter_icon">{this.state.viewList ? <Place /> : <ViewQuilt />}</button>
-				<button onClick={this.handleDate} className="filter_icon">Date{this.state.sortByDateDown ? <ArrowDropUp/> : <ArrowDropDown/>}</button>
 				<div className="filter_date_input">
-					From: <input type="date" value={this.state.from} max={this.state.to} id="from" onChange={this.handleChange}/>
-					To: <input type="date" value={this.state.to} min={this.state.from} id="to" onChange={this.handleChange}/>
-					<button className="filter_icon" onClick={this.handleDateSearch}>Search</button>
+					<span>From: <input type="date" value={this.state.from} min="2000-01-01" max={this.state.to} id="from" onChange={this.handleChange}/></span>
+					<span>To: <input type="date" value={this.state.to} max={this.state.to} min={this.state.from} id="to" onChange={this.handleChange}/></span>
+				</div>
+				<div className="filter_date_input">
+					<button onClick={this.handleView} className="filter_icon">{this.state.viewList ? <Place /> : <ViewQuilt />}</button>
+					<button onClick={this.handleDate} className="filter_icon">Date{this.state.sortByDateDown ? <ArrowDropUp/> : <ArrowDropDown/>}</button>
 				</div>
 	      	</div>
       		<ImageBlock 
@@ -100,7 +99,6 @@ class FilterBlock extends Component {
       			sortByDateUp={this.state.sortByDateUp} 
       			sortByDateDown={this.state.sortByDateDown} 
       			license={this.state.licenseFilter} 
-      			geolist={this.state.viewGeo} 
       			viewList={this.state.viewList}
       			from={this.state.from}
       			to={this.state.to}

@@ -36,12 +36,24 @@ ul{
 .card{
   flex-grow: 1;
   margin: 2px;
-  height: 250px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
   text-align: left;
 }
+
+.card_small{
+	height: 150px;
+}
+
+.card_medium{
+	height: 250px;
+}
+
+.card_large{
+	height: 350px;
+}
+
 
 .card_image{
   height: inherit;
@@ -170,6 +182,11 @@ ul{
 	margin-right: 10px;
 	vertical-align: middle;
 	margin-top: 20px;
+	border-radius: 5px;
+}
+
+.filter_icon_active{
+	border: 2px solid #2da5e1;
 }
 
 .filter_container{
@@ -185,6 +202,7 @@ ul{
 	border:1px solid rgba(0,0,0,0.2);
 	margin-right: 10px;
 	margin-top: 20px;
+	border-radius: 5px;
 }
 
 .author_caption{
@@ -196,9 +214,12 @@ ul{
 	margin-right: 10px;
 	border:1px solid rgba(0,0,0,0.2);
 	margin-top: 20px;
+	border-radius: 5px;
 }
 
-
+.filter_size button{
+	padding: 7px;
+}
 @media (max-width: 575.98px) {
 	.home_search{
 		width: 90%

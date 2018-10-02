@@ -7,7 +7,7 @@ import Place from '@material-ui/icons/Place';
 import moment from 'moment';
 
 const API = 'https://api.flickr.com/services/rest/?method=';
-const API_KEY = '&api_key=501cd1f79f31f6d00da6faed96ee96ae&format=json&nojsoncallback=1';
+const API_KEY = '&api_key=210faf4ab82b8d0fdd0e13dc09080003&format=json&nojsoncallback=1';
 
 class FilterBlock extends Component {
 	constructor(props){
@@ -22,11 +22,13 @@ class FilterBlock extends Component {
 			viewGeo: false,
 			viewList: true,
 			from: "2000-01-01",
-			to: moment().format("YYYY-MM-DD")
+			to: moment().format("YYYY-MM-DD"),
+		    size: ""
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleDate = this.handleDate.bind(this);
 		this.handleView = this.handleView.bind(this);
+		this.handleSize = this.handleSize.bind(this);
 	}
 
 	componentDidMount(){
@@ -70,6 +72,11 @@ class FilterBlock extends Component {
 		})
 	}
 
+	handleSize(e){
+		this.setState({
+			size: e.target.id
+		})
+	}
 	componentWillUnmount(){
 	  this.mounted = false;
 	}
@@ -92,6 +99,11 @@ class FilterBlock extends Component {
 					<button onClick={this.handleView} className="filter_icon">{this.state.viewList ? <Place /> : <ViewQuilt />}</button>
 					<button onClick={this.handleDate} className="filter_icon">Date{this.state.sortByDateDown ? <ArrowDropUp/> : <ArrowDropDown/>}</button>
 				</div>
+				<div className="filter_size">
+					<button onClick={this.handleSize} id="_n" className={"filter_icon " + (this.state.size === "_n" && "filter_icon_active")}>Small</button>
+					<button onClick={this.handleSize} className={"filter_icon " + (this.state.size === "" && "filter_icon_active")}>Medium</button>
+					<button onClick={this.handleSize} id="_b" className={"filter_icon " + (this.state.size === "_b" && "filter_icon_active")}>Large</button>
+				</div>
 	      	</div>
       		<ImageBlock 
       			method={this.props.method} 
@@ -102,6 +114,7 @@ class FilterBlock extends Component {
       			viewList={this.state.viewList}
       			from={this.state.from}
       			to={this.state.to}
+      			size={this.state.size}
       			/>
       	</React.Fragment>
     );

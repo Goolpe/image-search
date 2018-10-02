@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import GoogleMapReact from 'google-map-react';
 
 const API = 'https://api.flickr.com/services/rest/?method=';
-const API_KEY = '&api_key=501cd1f79f31f6d00da6faed96ee96ae&format=json&nojsoncallback=1';
+const API_KEY = '&api_key=210faf4ab82b8d0fdd0e13dc09080003&format=json&nojsoncallback=1';
 
 const AnyReactComponent = ({ text }) => (<div> {text}</div>);
 
@@ -13,7 +13,7 @@ class ImageBlock extends Component {
 		super(props);
 		this.state={
 			photos: [],
-			items: 20,
+			items: 30,
 			loading: false,
 			geolist: [],
 			center: {
@@ -40,21 +40,22 @@ class ImageBlock extends Component {
 	}
 
 	fetchData(){
+		this.setState({
+				loading: true
+			})
 		this.mounted = true;
 // creating arrays for data fetch
 		let photoList = [];
 		let geoList = [];
 		
 // getting photos
-		this.setState({
-				loading: true
-			})
+		
 		fetch(API + this.props.method + API_KEY + this.props.nid)
 			.then(response => response.json() )
 			.then(data => {
 // getting photos info
 				if(this.mounted) {
-					data.photos.photo.map(item=>{
+					data.photos.photo.map(item =>{
 						return fetch(API + 'flickr.photos.getInfo' + API_KEY + '&photo_id=' + item.id + '&secret=' + item.secret)
 						.then(response=> response.json())
 						.then(data => {
@@ -64,12 +65,9 @@ class ImageBlock extends Component {
 								loading: false
 							})
 						})
-						.catch(err => {
-					        alert('something broke');
-					    });
 					})
 
-					data.photos.photo.map(item=>{
+					data.photos.photo.map(item =>{
 						return fetch(API + 'flickr.photos.geo.getLocation' + API_KEY + '&photo_id=' + item.id)
 						.then(response=> response.json())
 						.then(data => {
@@ -80,12 +78,13 @@ class ImageBlock extends Component {
 								})
 							}
 						})
-						.catch(err => {
-					        alert('something broke');
-					    });
+						
 					})
 				}
 			})
+			.catch(err => {
+			        alert('something broke');
+			    });
 	}
 
 //handling scroll
@@ -143,14 +142,14 @@ class ImageBlock extends Component {
 
 // creating cards
   	const PHOTOS_LIST = photosWithFilter.map((item,index)=> 
-        	<div className="card" key={index}>
-	        		<img className="card_image" alt={item.photo.title} src={'https://farm' + item.photo.farm + '.staticflickr.com/' + item.photo.server + '/' + item.photo.id + '_' + item.photo.secret + '.jpg'} />
+        	<div className={"card " + (this.props.size === "_n" ? "card_small" : this.props.size === "_b" ? "card_large" : "card_medium")} key={index}>
+	        		<img className="card_image" alt={item.photo.title} src={'https://farm' + item.photo.farm + '.staticflickr.com/' + item.photo.server + '/' + item.photo.id + '_' + item.photo.secret + this.props.size + '.jpg'} />
 	        		<div className="card_info">
 	        			<div className="card_info_author_date">
 	        				<Link className="author_link" to={`/author/${item.photo.owner.nsid}`}>{item.photo.owner.username}</Link>
 	        				{moment(item.photo.dates.taken).format('LL')}
 	        			</div>
-	        			<div className="card_info_description">{item.photo.description._content.slice(0,200) || "-"}</div>
+	        			<div className="card_info_description">{item.photo.description._content.slice(0,60) || "-"}</div>
 	        		</div>
         	</div>
         ).slice(0, this.state.items)

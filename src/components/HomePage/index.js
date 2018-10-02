@@ -11,7 +11,6 @@ class HomePage extends Component {
 		}
 	}
 	componentDidMount(){
-
 // creating array for data fetch
 		let photoList = [];
 
@@ -45,6 +44,7 @@ class HomePage extends Component {
         		<div className="card_description">{item.photo.description._content}</div>
         	</div>
         )
+
     return (
       <div>
       	<div className="cards_container">

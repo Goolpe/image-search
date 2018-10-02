@@ -86,11 +86,11 @@ class ImageBlock extends Component {
         	<div className="card" key={index}>
 	        		<img className="card_image" alt={item.photo.title} src={'https://farm' + item.photo.farm + '.staticflickr.com/' + item.photo.server + '/' + item.photo.id + '_' + item.photo.secret + '.jpg'} />
 	        		<div className="card_info">
-	        			<ul>
-	        				<li><Link to={`/author/${item.photo.owner.nsid}`}>{item.photo.owner.username}</Link></li>
-	        				<li>{moment(item.photo.dates.taken).format('LL')}</li>
-	        				<li>Description: {item.photo.description._content.slice(0,200) || "-"}</li>
-	        			</ul>
+	        			<div className="card_info_author_date">
+	        				<Link className="author_link" to={`/author/${item.photo.owner.nsid}`}>{item.photo.owner.username}</Link>
+	        				{moment(item.photo.dates.taken).format('LL')}
+	        			</div>
+	        			<div className="card_info_description">{item.photo.description._content.slice(0,200) || "-"}</div>
 	        		</div>
         	</div>
         ).slice(0, this.state.items)

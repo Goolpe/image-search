@@ -58,12 +58,28 @@ ul{
 	color: #fff;
 }
 
-.card_info ul{
-	margin: 5px;
+.card_info_author_date{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 10px;
 }
 
-.card_info ul li{
+.card_info_description{
+	position: absolute;
+	bottom: 10px;
+	left: 10px
+}
+.author_link{
+	text-decoration: none;
+	color: #fff;
+	background-color: #4b7cab;
 	padding: 5px;
+	margin: 0 10px 10px 0;
+}
+
+.author_link:hover{
+	background-color: #3b3c40;
 }
 
 .loading{

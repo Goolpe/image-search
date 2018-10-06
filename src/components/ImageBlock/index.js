@@ -6,31 +6,38 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPhotos } from '../actions/photoActions';
 
-const API = 'https://api.flickr.com/services/rest/?method=';
-const API_KEY = '&api_key=658222f09cc099a37c0ef86fbd8c1ef7&format=json&nojsoncallback=1';
-
 class ImageBlock extends Component {
 	constructor(props){
 		super(props);
 		this.state={
 			photos: this.props.photos,
-			error: "",
+			method: this.props.method,
+			nid: this.props.nid,
+			error: this.props.error,
 			items: 30,
 			loading: false,
 		}
 		this.handleScroll = this.handleScroll.bind(this);
 		this.loadMoreItems = this.loadMoreItems.bind(this);
+		this.fetchPhotos = this.fetchPhotos.bind(this);
 	}
 
+	fetchPhotos(){
+		let dataPhoto = {
+			method: this.state.method,
+			nid: this.state.nid
+		}
+		this.props.fetchPhotos(dataPhoto);
+	}
 	componentDidMount(){
 //add event scroll
 		window.addEventListener('scroll', this.handleScroll);
-		this.props.fetchPhotos(this.props.request);
+		this.fetchPhotos()
 	}
 
 	componentDidUpdate(nextProps){
-		if(this.props.request !== nextProps.request){
-			this.props.fetchPhotos(this.props.request);
+		if(this.props.nid !== nextProps.nid){
+			this.fetchPhotos()
 		}	
 	}
 
@@ -60,18 +67,15 @@ class ImageBlock extends Component {
 
 	componentWillUnmount(){
 		window.removeEventListener('scroll', this.handleScroll);
-	  // this.mounted = false;
 	}
   render() {
-  	console.log(this.props.photos)
-// sort by date down
 
+// sort by date down
 	let photosWithFilter = this.props.photos.sort((a,b) =>{
 		return new Date(b.photo.dates.taken) - new Date(a.photo.dates.taken)
 	})
 
 // licenses filter
-
 	this.props.license && (photosWithFilter = photosWithFilter.filter(item => this.props.license === item.photo.license))
 
 // date sort from
@@ -98,8 +102,8 @@ class ImageBlock extends Component {
 
 	return (
 		<React.Fragment>
-			{this.state.error ? <div className="image-block">
-					 {this.state.error}
+			{this.props.error ? <div className="image-block">
+					 {this.props.error}
 		  </div>
 		  :
 		  <div className="image-block image-block--cards">
@@ -124,7 +128,8 @@ ImageBlock.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  photos: state.photos.items
+  photos: state.photos.items,
+  error: state.error
 })
 
 export default connect(mapStateToProps, { fetchPhotos })(ImageBlock);

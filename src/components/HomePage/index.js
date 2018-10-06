@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import FilterBlock from '../FilterBlock';
+import moment from 'moment';
+import ImageBlock from '../ImageBlock';
 
 class HomePage extends Component {
 	constructor(props){
@@ -7,13 +9,17 @@ class HomePage extends Component {
 		this.state={
 			inputText: '',
 			input: 'dogs',
-			error: ''
+			error: '',
+			from: "2000-01-01",
+			to: moment().format("YYYY-MM-DD"),
+			licenseFilter: "",
+		  size: ""
 		}
 		this.handleChange = this.handleChange.bind(this);
+		this.handleSize = this.handleSize.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-//handling change of value input
 	handleChange(e){
 		let value = e.target.value
 		this.setState({
@@ -22,7 +28,12 @@ class HomePage extends Component {
 		})
 	}
 
-//handling submit
+	handleSize(e){
+		this.setState({
+			size: e.target.id
+		})
+	}
+
 	handleSubmit(e){
 		e.preventDefault();
 		if (/^\s+$/.test(this.state.inputText)) {
@@ -49,8 +60,26 @@ class HomePage extends Component {
 	      	<button className="form__button" type="submit">Search</button>
 	    	</form>
 	    	<section>
-					<FilterBlock request={"flickr.photos.search&text=" + this.state.input} />
+					<FilterBlock 
+						handleChange={this.handleChange} 
+						handleSize={this.handleSize}
+						from={this.state.from} 
+						to={this.state.to} 
+						license={this.state.licenseFilter} 
+      			viewList={this.state.viewList}
+      			size={this.state.size}
+					/>
 	    	</section>
+	    	<section>
+	    		<ImageBlock 
+      			method="flickr.photos.search&text="
+      			nid={this.state.input}  
+      			license={this.state.licenseFilter} 
+      			from={this.state.from}
+      			to={this.state.to}
+      			size={this.state.size}
+      			/>	
+      	</section>
       </main>
     );
 	}

@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import photoReducer from './photoReducer';
+import errorReducer from './errorReducer';
 
 export default combineReducers({
-  photos: photoReducer
+  photos: photoReducer,
+  error: errorReducer
 });
 
 

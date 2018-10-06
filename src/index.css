@@ -15,12 +15,16 @@ ul{
 	padding: 0;
 }
 
-.container{
-	width:  90%;
-  margin: 50px auto;
+summary{
+	cursor: pointer;
 }
 
-.container h1{
+.main{
+	width:  90%;
+  	margin: 50px auto;
+}
+
+.header__title{
 	text-align: center;
 }
 
@@ -30,7 +34,6 @@ ul{
   display: flex;
   flex-wrap: wrap;
   height: auto;
-
 }
 
 .card{
@@ -42,27 +45,27 @@ ul{
   text-align: left;
 }
 
-.card_small{
+.card_size_small{
 	height: 150px;
 }
 
-.card_medium{
+.card_size_medium{
 	height: 250px;
 }
 
-.card_large{
+.card_size_large{
 	height: 350px;
 }
 
 
-.card_image{
+.card__image{
   height: inherit;
   object-fit: cover;
   max-width: 100%;
   min-width: 100%;
 }
 
-.card_info{
+.card__caption{
 	height: 100%;
 	width: 100%;
 	display: none;
@@ -72,25 +75,25 @@ ul{
 	left:0;
 }
 
-.card:hover .card_info{
+.card:hover .card__caption{
 	display: block;
 	background-color: rgba(0,0,0,0.7);
 	color: #fff;
 }
 
-.card_info_author_date{
+.card__author_date{
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	margin: 10px;
 }
 
-.card_info_description{
+.card__description{
 	position: absolute;
 	bottom: 10px;
 	left: 10px
 }
-.author_link{
+.card__author{
 	text-decoration: none;
 	color: #fff;
 	background-color: #4b7cab;
@@ -98,7 +101,7 @@ ul{
 	margin: 0 10px 10px 0;
 }
 
-.author_link:hover{
+.card__author:hover{
 	background-color: #3b3c40;
 }
 
@@ -138,14 +141,14 @@ ul{
 
 /*search input*/
 
-.home_search{
+.search-form{
 	display: flex;
 	justify-content: center;
 	margin: 50px auto;
 	width: 500px;
 }
 
-.home_search input{
+.search-form__input{
 	font-size: 20px;
 	width: 80%;
 	height: 50px;
@@ -156,25 +159,28 @@ ul{
 	z-index: 50;
 }
 
-.home_search button{
+.button{
 	font-size: 16px;
-	width: 20%;
 	border: 0px;
+}
+
+.search-form__button{
+	width: 20%;
 	border-radius:0 25px 25px 0;
 	box-shadow: 0 0 5px rgba(0,0,0,0.5);
 	background-color: #4caf50;
 	color: #fff;
-	z-index: 45;
 }
 
-.home_search button:hover{
+.search-form__button:hover{
 	box-shadow: 0 0 5px rgba(0,0,0,0.5);
 	background-color: #55bbeb;
 }
 
-.home_search button:focus{
+.search-form__button:focus{
 	box-shadow: 0 0 1px rgba(0,0,0,0.5);
 }
+
 
 .filter_icon{
 	background-color: transparent;

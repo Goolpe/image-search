@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import GoogleMapReact from 'google-map-react';
 
 const API = 'https://api.flickr.com/services/rest/?method=';
-const API_KEY = '&api_key=210faf4ab82b8d0fdd0e13dc09080003&format=json&nojsoncallback=1';
+const API_KEY = '&api_key=658222f09cc099a37c0ef86fbd8c1ef7&format=json&nojsoncallback=1';
 
 const AnyReactComponent = ({ text }) => (<div> {text}</div>);
 
@@ -142,16 +142,16 @@ class ImageBlock extends Component {
 
 // creating cards
   	const PHOTOS_LIST = photosWithFilter.map((item,index)=> 
-        	<div className={"card " + (this.props.size === "_n" ? "card_small" : this.props.size === "_b" ? "card_large" : "card_medium")} key={index}>
-	        		<img className="card_image" alt={item.photo.title} src={'https://farm' + item.photo.farm + '.staticflickr.com/' + item.photo.server + '/' + item.photo.id + '_' + item.photo.secret + this.props.size + '.jpg'} />
-	        		<div className="card_info">
-	        			<div className="card_info_author_date">
-	        				<Link className="author_link" to={`/author/${item.photo.owner.nsid}`}>{item.photo.owner.username}</Link>
-	        				{moment(item.photo.dates.taken).format('LL')}
-	        			</div>
-	        			<div className="card_info_description">{item.photo.description._content.slice(0,60) || "-"}</div>
-	        		</div>
-        	</div>
+        	<figure className={"card " + (this.props.size === "_n" ? "card_size_small" : this.props.size === "_b" ? "card_size_large" : "card_size_medium")} key={index}>
+        		<img className="card__image" alt={item.photo.title} src={'https://farm' + item.photo.farm + '.staticflickr.com/' + item.photo.server + '/' + item.photo.id + '_' + item.photo.secret + this.props.size + '.jpg'} />
+        		<figcaption className="card__caption">
+        			<div className="card__author_date">
+        				<Link className="card__author" to={`/author/${item.photo.owner.nsid}`}>{item.photo.owner.username}</Link>
+        				<time className="card__date">{moment(item.photo.dates.taken).format('LL')}</time>
+        			</div>
+        			<div className="card__description">{item.photo.description._content.slice(0,60) || "-"}</div>
+        		</figcaption>
+        	</figure>
         ).slice(0, this.state.items)
 
 //locations on the google map
@@ -167,7 +167,7 @@ class ImageBlock extends Component {
 			      	</div> 
 			      	<div className="loading">
 			      		{this.state.loading && <h1>loading<span className="dot">.</span><span className="dot">.</span><span className="dot">.</span></h1>}
-			      	</div>
+			      	</div>  
 		      	</React.Fragment>
 	      	:
 	      		<div className="cards_container">
@@ -182,7 +182,7 @@ class ImageBlock extends Component {
 				    </div>
 		      	</div>
 	      	}
-	      	
+	    	
       	</React.Fragment>
     );
   }

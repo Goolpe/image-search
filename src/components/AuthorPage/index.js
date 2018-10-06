@@ -4,10 +4,10 @@ import {Link} from 'react-router-dom';
 
 function AuthorPage(props) {
   return (
-    <div className="container">
-    	<Link to="/" className="author_caption">Home</Link>
+    <main className="main">
+    	<Link to="/" className="author_link">Home</Link>
     	<FilterBlock method="flickr.people.getPhotos" nid={"&user_id=" + props.match.params.id}/>
-    </div>
+    </main>
   );
 }
 

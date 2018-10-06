@@ -28,22 +28,22 @@ class HomePage extends Component {
 		})
 	}
 
-  render() {
+	render() {
     return (
       <main className="main">
       	<header className="header">
       		<h1 className="header__title">Search photos</h1>
       	</header>
-	    <form onSubmit={this.handleSubmit} className="search-form">
-	      	<input className="input search-form__input" value={this.state.inputText} id="inputText" onChange={this.handleChange} placeholder="Dogs" required/>
-	      	<button className="button search-form__button" type="submit">Search</button>
-      	</form>
-      	<section>
-			<FilterBlock method="flickr.photos.search" nid={"&text=" + this.state.input} />
-      	</section>
+		    <form onSubmit={this.handleSubmit} className="form">
+	      	<input className="form__input" value={this.state.inputText} id="inputText" onChange={this.handleChange} placeholder="Dogs" required/>
+	      	<button className="form__button" type="submit">Search</button>
+	    	</form>
+	    	<section>
+					<FilterBlock method="flickr.photos.search" nid={"&text=" + this.state.input} />
+	    	</section>
       </main>
     );
-  }
+	}
 }
 
 export default HomePage;

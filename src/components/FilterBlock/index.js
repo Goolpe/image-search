@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import ImageBlock from './ImageBlock';
-import ViewQuilt from '@material-ui/icons/ViewQuilt';
-import Place from '@material-ui/icons/Place';
+import ImageBlock from '../ImageBlock';
 import moment from 'moment';
 
 const API = 'https://api.flickr.com/services/rest/?method=';
@@ -88,27 +84,19 @@ class FilterBlock extends Component {
     	<React.Fragment>
 	      	<details>
 	      		<summary>Advanced</summary>
-	      		<div className="filter_container">
-		      		<select value={this.state.licenseFilter} id="licenseFilter" onChange={this.handleChange}>
+	      		<div className="filter">
+		      		<select value={this.state.licenseFilter} className="filter__elem" id="licenseFilter" onChange={this.handleChange}>
 		      			<option value="">All</option>
-					    {LICENSES_LIST}
-					</select>
-					<div className="filter_date_input">
-						<label>From: </label>
-						<input type="date" value={this.state.from} min="2000-01-01" max={this.state.to} id="from" onChange={this.handleChange}/>
-						<label>To: </label>
-						<input type="date" value={this.state.to} max={this.state.to} min={this.state.from} id="to" onChange={this.handleChange}/>
-					</div>
-					<div className="filter_date_input">
-						<button onClick={this.handleView} className="button filter_icon">{this.state.viewList ? <Place /> : <ViewQuilt />}</button>
-						<button onClick={this.handleDate} className="button filter_icon">Date{this.state.sortByDateDown ? <ArrowDropUp/> : <ArrowDropDown/>}</button>
-					</div>
-					<div className="filter_size">
-						<button onClick={this.handleSize} id="_n" className={"button filter_icon " + (this.state.size === "_n" && "filter_icon_active")}>Small</button>
-						<button onClick={this.handleSize} className={"button filter_icon " + (this.state.size === "" && "filter_icon_active")}>Medium</button>
-						<button onClick={this.handleSize} id="_b" className={"button filter_icon " + (this.state.size === "_b" && "filter_icon_active")}>Large</button>
-					</div>
-				</div>
+					    	{LICENSES_LIST}
+							</select>
+							<label className="filter__elem filter__elem--label">From: </label>
+							<input className="filter__elem filter__elem--input" type="date" value={this.state.from} min="2000-01-01" max={this.state.to} id="from" onChange={this.handleChange}/>
+							<label className="filter__elem filter__elem--label">To: </label>
+							<input className="filter__elem filter__elem--input" type="date" value={this.state.to} max={this.state.to} min={this.state.from} id="to" onChange={this.handleChange}/>
+							<button className={"filter__elem " + (this.state.size === "_n" && "filter__elem--active")} onClick={this.handleSize} id="_n" >Small</button>
+							<button className={"filter__elem " + (this.state.size === "" && "filter__elem--active")} onClick={this.handleSize} >Medium</button>
+							<button className={"filter__elem " + (this.state.size === "_b" && "filter__elem--active")} onClick={this.handleSize} id="_b" >Large</button>
+						</div>
 	      	</details>
       		<ImageBlock 
       			method={this.props.method} 

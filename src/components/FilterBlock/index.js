@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ImageBlock from '../ImageBlock';
 import moment from 'moment';
+import './filterBlock.css';
 
 const API = 'https://api.flickr.com/services/rest/?method=';
 const API_KEY = '&api_key=658222f09cc099a37c0ef86fbd8c1ef7&format=json&nojsoncallback=1';
@@ -19,7 +20,7 @@ class FilterBlock extends Component {
 			viewList: true,
 			from: "2000-01-01",
 			to: moment().format("YYYY-MM-DD"),
-		    size: ""
+		  size: ""
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleDate = this.handleDate.bind(this);
@@ -85,17 +86,23 @@ class FilterBlock extends Component {
 	      	<details>
 	      		<summary>Advanced</summary>
 	      		<div className="filter">
-		      		<select value={this.state.licenseFilter} className="filter__elem" id="licenseFilter" onChange={this.handleChange}>
-		      			<option value="">All</option>
-					    	{LICENSES_LIST}
-							</select>
-							<label className="filter__elem filter__elem--label">From: </label>
-							<input className="filter__elem filter__elem--input" type="date" value={this.state.from} min="2000-01-01" max={this.state.to} id="from" onChange={this.handleChange}/>
-							<label className="filter__elem filter__elem--label">To: </label>
-							<input className="filter__elem filter__elem--input" type="date" value={this.state.to} max={this.state.to} min={this.state.from} id="to" onChange={this.handleChange}/>
-							<button className={"filter__elem " + (this.state.size === "_n" && "filter__elem--active")} onClick={this.handleSize} id="_n" >Small</button>
-							<button className={"filter__elem " + (this.state.size === "" && "filter__elem--active")} onClick={this.handleSize} >Medium</button>
-							<button className={"filter__elem " + (this.state.size === "_b" && "filter__elem--active")} onClick={this.handleSize} id="_b" >Large</button>
+	      			<div className="filter__wrapper">
+			      		<select value={this.state.licenseFilter} className="filter__elem" id="licenseFilter" onChange={this.handleChange}>
+			      			<option value="">All</option>
+						    	{LICENSES_LIST}
+								</select>
+							</div>
+							<div className="filter__wrapper">
+								<label className="filter__elem filter__elem--label">From: </label>
+								<input className="filter__elem filter__elem--input" type="date" value={this.state.from} min="2000-01-01" max={this.state.to} id="from" onChange={this.handleChange}/>
+								<label className="filter__elem filter__elem--label">To: </label>
+								<input className="filter__elem filter__elem--input" type="date" value={this.state.to} max={this.state.to} min={this.state.from} id="to" onChange={this.handleChange}/>
+							</div>
+							<div className="filter__wrapper">
+								<button className={"filter__elem " + (this.state.size === "_n" && "filter__elem--active")} onClick={this.handleSize} id="_n" >Small</button>
+								<button className={"filter__elem " + (this.state.size === "" && "filter__elem--active")} onClick={this.handleSize} >Medium</button>
+								<button className={"filter__elem " + (this.state.size === "_b" && "filter__elem--active")} onClick={this.handleSize} id="_b" >Large</button>
+							</div>
 						</div>
 	      	</details>
       		<ImageBlock 

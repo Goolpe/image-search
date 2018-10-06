@@ -1,0 +1,53 @@
+.filter
+{
+    display: flex;
+
+    margin: 10px 0;
+
+    flex-wrap: wrap;
+    align-items: center;
+    height: auto;
+}
+
+.filter__wrapper{
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+}
+
+.filter__elem{
+	height: 30px;
+	margin-top: 10px;
+	margin-right: 10px;
+	border-radius: 5px;
+	border: 1px solid rgba(0,0,0,.2);
+	background-color: transparent;
+}
+
+.filter__elem--label{
+	border: 0;
+	height: auto;
+}
+
+.filter__elem--input{
+	box-sizing: border-box;
+}
+
+.filter__elem--active
+{
+    border: 1px solid #2da5e1;
+}
+
+@media (max-width: 575.98px)
+{
+    .filter{
+    	height: auto;
+    	justify-content: center;
+    }
+
+    .filter__elem
+    {
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+}

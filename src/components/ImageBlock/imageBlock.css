@@ -1,0 +1,140 @@
+.cards
+{
+    display: flex;
+
+    height: auto;
+
+    flex-wrap: wrap;
+}
+
+.cards__card
+{
+    position: relative;
+
+    overflow: hidden;
+
+    margin: 2px;
+
+    cursor: pointer;
+    text-align: left;
+
+    flex-grow: 1;
+}
+
+.cards__card--size-small
+{
+    height: 150px;
+}
+
+.cards__card--size-medium
+{
+    height: 250px;
+}
+
+.cards__card--size-large
+{
+    height: 350px;
+}
+
+.cards__card__image
+{
+    min-width: 100%;
+    max-width: 100%;
+    height: inherit;
+
+    object-fit: cover;
+}
+
+.cards__card__caption
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    width: 100%;
+    height: 100%;
+}
+
+.cards__card:hover .cards__card__caption
+{
+    display: block;
+
+    color: #fff;
+    background-color: rgba(0,0,0,.7);
+}
+
+.cards__card__author-date
+{
+    display: flex;
+
+    margin: 10px;
+
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.cards__card__description
+{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.cards__card__author
+{
+    margin: 0 10px 10px 0;
+    padding: 5px;
+
+    text-decoration: none;
+
+    color: #fff;
+    background-color: #4b7cab;
+}
+
+.cards__card__author:hover
+{
+    background-color: #3b3c40;
+}
+
+/*loading indicator*/
+
+.preload
+{
+    text-align: center;
+}
+
+.preload__dot:nth-child(1)
+{
+    animation: dots 1s infinite;
+    animation-delay: 0s;
+}
+
+.preload__dot:nth-child(2)
+{
+    animation: dots 1s infinite;
+    animation-delay: .2s;
+}
+
+.preload__dot:nth-child(3)
+{
+    animation: dots 1s infinite;
+    animation-delay: .5s;
+}
+
+@keyframes dots
+{
+    0%
+    {
+        color: #000;
+    }
+    50%
+    {
+        color: #fff;
+    }
+    100%
+    {
+        color: #000;
+    }
+}

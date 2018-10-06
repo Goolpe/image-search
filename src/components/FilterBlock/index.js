@@ -83,11 +83,11 @@ class FilterBlock extends Component {
   	)
     return (
     	<React.Fragment>
-	      	<details>
-	      		<summary>Advanced</summary>
-	      		<div className="filter">
+	      	<details className="filter">
+	      		<summary className="filter__summary">Advanced</summary>
+	      		<div className="filter__block">
 	      			<div className="filter__wrapper">
-			      		<select value={this.state.licenseFilter} className="filter__elem" id="licenseFilter" onChange={this.handleChange}>
+			      		<select value={this.state.licenseFilter} className="filter__elem filter__elem--select" id="licenseFilter" onChange={this.handleChange}>
 			      			<option value="">All</option>
 						    	{LICENSES_LIST}
 								</select>
@@ -99,9 +99,9 @@ class FilterBlock extends Component {
 								<input className="filter__elem filter__elem--input" type="date" value={this.state.to} max={this.state.to} min={this.state.from} id="to" onChange={this.handleChange}/>
 							</div>
 							<div className="filter__wrapper">
-								<button className={"filter__elem " + (this.state.size === "_n" && "filter__elem--active")} onClick={this.handleSize} id="_n" >Small</button>
-								<button className={"filter__elem " + (this.state.size === "" && "filter__elem--active")} onClick={this.handleSize} >Medium</button>
-								<button className={"filter__elem " + (this.state.size === "_b" && "filter__elem--active")} onClick={this.handleSize} id="_b" >Large</button>
+								<button className={"filter__elem filter__elem--button " + (this.state.size === "_n" && "filter__elem--active")} onClick={this.handleSize} id="_n" >Small</button>
+								<button className={"filter__elem filter__elem--button " + (this.state.size === "" && "filter__elem--active")} onClick={this.handleSize} >Medium</button>
+								<button className={"filter__elem filter__elem--button " + (this.state.size === "_b" && "filter__elem--active")} onClick={this.handleSize} id="_b" >Large</button>
 							</div>
 						</div>
 	      	</details>

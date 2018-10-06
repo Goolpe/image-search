@@ -11,21 +11,6 @@ body
     outline: none;
 }
 
-button,
-summary,
-select
-{
-    cursor: pointer;
-}
-
-ul
-{
-    margin: 0;
-    padding: 0;
-
-    list-style-type: none;
-}
-
 .main
 {
     width: 90%;
@@ -64,8 +49,8 @@ ul
 
 .form__button
 {
-	font-size: 16px;
-
+		font-size: 16px;
+		cursor: pointer;
     border: 0;
     width: 20%;
 
@@ -84,11 +69,6 @@ ul
 .form__button:focus
 {
     box-shadow: 0 0 1px rgba(0,0,0,.5);
-}
-
-.author_caption
-{
-    text-decoration: none;
 }
 
 @media (max-width: 575.98px)

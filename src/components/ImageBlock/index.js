@@ -11,6 +11,7 @@ class ImageBlock extends Component {
 		super(props);
 		this.state={
 			photos: [],
+			error: "",
 			items: 30,
 			loading: false,
 		}
@@ -33,6 +34,8 @@ class ImageBlock extends Component {
 
 	fetchData(){
 		this.setState({
+			error: "",
+			photos: [],
 			loading: true
 		})
 		this.mounted = true;
@@ -41,22 +44,30 @@ class ImageBlock extends Component {
 		
 // getting photos
 		
-		fetch(API + this.props.method + API_KEY + this.props.nid)
+		fetch(API + this.props.method + this.props.nid + API_KEY )
 			.then(response => response.json() )
 			.then(data => {
-// getting photos info
 				if(this.mounted) {
-					data.photos.photo.map(item =>{
-						return fetch(API + 'flickr.photos.getInfo' + API_KEY + '&photo_id=' + item.id + '&secret=' + item.secret)
-						.then(response=> response.json())
-						.then(data => {
-							photoList.push(data)
-							this.setState({
-								photos: photoList,
-								loading: false
+					if(data.photos.total === "0"){
+						this.setState({
+							error: 'Oops! There are no matches for "' + this.props.nid + '"',
+							loading: false
+						})
+					}
+					else{
+						data.photos.photo.map(item =>{
+							return fetch(API + 'flickr.photos.getInfo' + API_KEY + '&photo_id=' + item.id + '&secret=' + item.secret)
+							.then(response=> response.json())
+							.then(data => {
+								photoList.push(data)
+								this.setState({
+									photos: photoList,
+									loading: false
+								})
 							})
 						})
-					})
+					}
+					
 				}
 			})
 			.catch(err => {
@@ -114,33 +125,36 @@ class ImageBlock extends Component {
 
 // creating cards
 	const PHOTOS_LIST = photosWithFilter.map((item,index)=> 
-		<figure className={"cards__card " + (this.props.size === "_n" ? "cards__card--size-small" : this.props.size === "_b" ? "cards__card--size-large" : "cards__card--size-medium")} key={index}>
-			<img className="cards__card__image" alt={item.photo.title} src={'https://farm' + item.photo.farm + '.staticflickr.com/' + item.photo.server + '/' + item.photo.id + '_' + item.photo.secret + this.props.size + '.jpg'} />
-			<figcaption className="cards__card__caption">
-				<div className="cards__card__author-date">
-					<Link className="cards__card__author" to={`/author/${item.photo.owner.nsid}`}>{item.photo.owner.username}</Link>
-					<time className="cards__card__date">{moment(item.photo.dates.taken).format('LL')}</time>
+		<figure className={"card " + (this.props.size === "_n" ? "card--size-small" : this.props.size === "_b" ? "card--size-large" : "card--size-medium")} key={index}>
+			<img className="card__image" alt={item.photo.title} src={'https://farm' + item.photo.farm + '.staticflickr.com/' + item.photo.server + '/' + item.photo.id + '_' + item.photo.secret + this.props.size + '.jpg'} />
+			<figcaption className="card__caption">
+				<div className="card__author-date">
+					<Link className="card__author" to={`/author/${item.photo.owner.nsid}`}>{item.photo.owner.username}</Link>
+					<time className="card__date">{moment(item.photo.dates.taken).format('LL')}</time>
 				</div>
-				<div className="cards__card__description">{item.photo.description._content.slice(0,60) || "-"}</div>
+				<div className="card__description">{item.photo.description._content.slice(0,60) || "-"}</div>
 			</figcaption>
 		</figure>
 	).slice(0, this.state.items)
 
 	return (
 		<React.Fragment>
-				<div className="cards">
-			{PHOTOS_LIST}
-		</div> 
-		<div className="preload">
-			{this.state.loading && 
-				<h1>loading
-					<span className="preload__dot">.</span>
-					<span className="preload__dot">.</span>
-					<span className="preload__dot">.</span>
-				</h1>
+			{this.state.error ? <div className="image-block">
+					 {this.state.error}
+		  </div>
+		  :
+		  <div className="image-block image-block--cards">
+				{PHOTOS_LIST}
+			</div>
 			}
-		</div>  
-	  </React.Fragment>
+			{this.state.loading && <div className="image-block">		 
+				<h1>loading
+					<span className="image-block__preload-dot">.</span>
+					<span className="image-block__preload-dot">.</span>
+					<span className="image-block__preload-dot">.</span>
+				</h1>
+		  </div>}
+		</React.Fragment>
 	);
   }
 }

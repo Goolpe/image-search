@@ -39,7 +39,7 @@ class HomePage extends Component {
 	      	<button className="form__button" type="submit">Search</button>
 	    	</form>
 	    	<section>
-					<FilterBlock method="flickr.photos.search" nid={"&text=" + this.state.input} />
+					<FilterBlock method="flickr.photos.search&text=" nid={this.state.input} />
 	    	</section>
       </main>
     );

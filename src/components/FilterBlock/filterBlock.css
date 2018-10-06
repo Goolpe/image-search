@@ -1,53 +1,84 @@
-.filter
+.filter{
+	background-color: rgba(221,222,222,.3);
+}
+
+.filter__summary{
+	cursor: pointer;
+	padding: 20px;
+}
+
+.filter__block
 {
     display: flex;
 
-    margin: 10px 0;
-
+    height: auto;
+		padding: 10px;
     flex-wrap: wrap;
     align-items: center;
+}
+
+.filter__wrapper
+{
+    display: flex;
+
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.filter__elem
+{
+    height: 30px;
+    margin-right: 10px;
+		border:0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.filter__elem--select{
+	cursor: pointer;
+}
+
+.filter__elem--label
+{
     height: auto;
+		background-color: transparent;
+    box-shadow: none;
 }
 
-.filter__wrapper{
-		display: flex;
-		flex-wrap: nowrap;
-		align-items: center;
+.filter__elem--input
+{
+    box-sizing: border-box;
 }
 
-.filter__elem{
-	height: 30px;
-	margin-top: 10px;
-	margin-right: 10px;
-	border-radius: 5px;
-	border: 1px solid rgba(0,0,0,.2);
-	background-color: transparent;
+.filter__elem--button{
+	cursor: pointer;
 }
 
-.filter__elem--label{
-	border: 0;
-	height: auto;
-}
-
-.filter__elem--input{
-	box-sizing: border-box;
+.filter__elem--button:hover{
+	box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
 }
 
 .filter__elem--active
 {
-    border: 1px solid #2da5e1;
+	box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+    background-color: #55bbeb;
+    color:#fff;
 }
 
 @media (max-width: 575.98px)
 {
-    .filter{
-    	height: auto;
-    	justify-content: center;
+  .filter__block
+    {
+        height: auto;
+
+        justify-content: center;
     }
 
-    .filter__elem
+  .filter__elem
     {
-        margin-bottom: 5px;
         font-size: 12px;
+
+        margin-bottom: 5px;
     }
 }

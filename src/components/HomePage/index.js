@@ -6,7 +6,8 @@ class HomePage extends Component {
 		super(props);
 		this.state={
 			inputText: '',
-			input: 'dogs'
+			input: 'dogs',
+			error: ''
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -16,16 +17,24 @@ class HomePage extends Component {
 	handleChange(e){
 		let value = e.target.value
 		this.setState({
-			[e.target.id] : value
+			[e.target.id] : value,
+			error: ""
 		})
 	}
 
 //handling submit
 	handleSubmit(e){
 		e.preventDefault();
-		this.setState({
-			input: this.state.inputText.toLowerCase()
-		})
+		if (/^\s+$/.test(this.state.inputText)) {
+		  this.setState({
+		  	error: "Please write something"
+		  })
+		}
+		else{
+			this.setState({
+				input: this.state.inputText.toLowerCase().trim()
+			})
+		}
 	}
 
 	render() {
@@ -34,12 +43,13 @@ class HomePage extends Component {
       	<header className="header">
       		<h1 className="header__title">Search photos</h1>
       	</header>
-		    <form onSubmit={this.handleSubmit} className="form">
+		    <form onSubmit={this.handleSubmit} className="form-search">
 	      	<input className="form__input" value={this.state.inputText} id="inputText" onChange={this.handleChange} placeholder="Dogs" required/>
+	      	<div className="form__error">{this.state.error}</div>
 	      	<button className="form__button" type="submit">Search</button>
 	    	</form>
 	    	<section>
-					<FilterBlock method="flickr.photos.search&text=" nid={this.state.input} />
+					<FilterBlock request={"flickr.photos.search&text=" + this.state.input} />
 	    	</section>
       </main>
     );

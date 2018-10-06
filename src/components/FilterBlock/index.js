@@ -12,8 +12,6 @@ class FilterBlock extends Component {
 		this.state={
 			inputText: '',
 			input: 'dogs',
-			sortByDateUp: false,
-			sortByDateDown: true,
 			licenses: [],
 			licenseFilter: "",
 			viewGeo: false,
@@ -106,8 +104,7 @@ class FilterBlock extends Component {
 						</div>
 	      	</details>
       		<ImageBlock 
-      			method={this.props.method} 
-      			nid={this.props.nid} 
+      			request={this.props.request}  
       			sortByDateUp={this.state.sortByDateUp} 
       			sortByDateDown={this.state.sortByDateDown} 
       			license={this.state.licenseFilter} 

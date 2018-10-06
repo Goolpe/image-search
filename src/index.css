@@ -24,10 +24,10 @@ body
 
 /*search input*/
 
-.form
+.form-search
 {
     display: flex;
-
+		position: relative;
     width: 500px;
     margin: 50px auto;
 
@@ -37,7 +37,7 @@ body
 .form__input
 {
     font-size: 20px;
-
+		
     width: 80%;
     height: 50px;
     padding: 0 20px;
@@ -45,6 +45,13 @@ body
     border: 0;
     border-radius: 25px 0 0 25px;
     box-shadow: 0 0 3px rgba(0,0,0,.5);
+}
+
+.form__error{
+	position: absolute;
+	bottom: -25px;
+	left: 25px;
+	color: #f9225b;
 }
 
 .form__button
@@ -73,7 +80,7 @@ body
 
 @media (max-width: 575.98px)
 {
-    .form
+    .form-search
     {
         width: 90%;
     }

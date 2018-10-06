@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
 import './imageBlock.css';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchPhotos } from '../actions/photoActions';
 
 const API = 'https://api.flickr.com/services/rest/?method=';
 const API_KEY = '&api_key=658222f09cc099a37c0ef86fbd8c1ef7&format=json&nojsoncallback=1';
@@ -10,75 +13,32 @@ class ImageBlock extends Component {
 	constructor(props){
 		super(props);
 		this.state={
-			photos: [],
+			photos: this.props.photos,
 			error: "",
 			items: 30,
 			loading: false,
 		}
 		this.handleScroll = this.handleScroll.bind(this);
 		this.loadMoreItems = this.loadMoreItems.bind(this);
-		this.fetchData = this.fetchData.bind(this);
 	}
 
 	componentDidMount(){
 //add event scroll
 		window.addEventListener('scroll', this.handleScroll);
-		this.fetchData();
+		this.props.fetchPhotos(this.props.request);
 	}
 
 	componentDidUpdate(nextProps){
-		if(this.props.nid !== nextProps.nid){
-			this.fetchData();
+		if(this.props.request !== nextProps.request){
+			this.props.fetchPhotos(this.props.request);
 		}	
-	}
-
-	fetchData(){
-		this.setState({
-			error: "",
-			photos: [],
-			loading: true
-		})
-		this.mounted = true;
-// creating arrays for data fetch
-		let photoList = [];
-		
-// getting photos
-		
-		fetch(API + this.props.method + this.props.nid + API_KEY )
-			.then(response => response.json() )
-			.then(data => {
-				if(this.mounted) {
-					if(data.photos.total === "0"){
-						this.setState({
-							error: 'Oops! There are no matches for "' + this.props.nid + '"',
-							loading: false
-						})
-					}
-					else{
-						data.photos.photo.map(item =>{
-							return fetch(API + 'flickr.photos.getInfo' + API_KEY + '&photo_id=' + item.id + '&secret=' + item.secret)
-							.then(response=> response.json())
-							.then(data => {
-								photoList.push(data)
-								this.setState({
-									photos: photoList,
-									loading: false
-								})
-							})
-						})
-					}
-					
-				}
-			})
-			.catch(err => {
-					alert('something broke');
-				});
 	}
 
 //handling scroll
 
 	handleScroll(e){
-		if (document.scrollingElement.scrollTop + document.scrollingElement.clientHeight >= document.scrollingElement.scrollHeight - 20 && this.state.items <= this.state.photos.length){
+		let elem = document.scrollingElement
+		if (elem.scrollTop + elem.clientHeight >= elem.scrollHeight - 20 && this.state.items <= this.props.photos.length){
 			this.loadMoreItems();
 		}
 	}
@@ -100,16 +60,15 @@ class ImageBlock extends Component {
 
 	componentWillUnmount(){
 		window.removeEventListener('scroll', this.handleScroll);
-	  this.mounted = false;
+	  // this.mounted = false;
 	}
   render() {
-	var photosWithFilter;
-
+  	console.log(this.props.photos)
 // sort by date down
 
-	this.props.sortByDateDown && (photosWithFilter = this.state.photos.sort((a,b) =>{
+	let photosWithFilter = this.props.photos.sort((a,b) =>{
 		return new Date(b.photo.dates.taken) - new Date(a.photo.dates.taken)
-	}))
+	})
 
 // licenses filter
 
@@ -159,4 +118,13 @@ class ImageBlock extends Component {
   }
 }
 
-export default ImageBlock;
+ImageBlock.propTypes = {
+  fetchPhotos: PropTypes.func.isRequired,
+  photos: PropTypes.array.isRequired
+};
+
+const mapStateToProps = state => ({
+  photos: state.photos.items
+})
+
+export default connect(mapStateToProps, { fetchPhotos })(ImageBlock);
